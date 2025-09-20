@@ -4,6 +4,7 @@ import {
   ModalContent,
   ModalTitle,
   ModalButton,
+  ModalDescription,
 } from "./compontents/modal";
 
 const ModalFormPage = () => {
@@ -16,7 +17,7 @@ const ModalFormPage = () => {
         <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
           <ModalContent>
             <ModalTitle>Modal Title</ModalTitle>
-            모달입니다..
+            <ModalDescription>Modal Description</ModalDescription>
             <ModalButton>Close</ModalButton>
           </ModalContent>
         </Modal>

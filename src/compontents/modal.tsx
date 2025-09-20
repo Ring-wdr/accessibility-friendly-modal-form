@@ -14,6 +14,7 @@ import {
 } from "../context/modal-context";
 import { delay } from "../utils/delay";
 import { isFocusable } from "../utils/element/isFocusable";
+import { useScrollPrevent } from "../hooks/useScrollPrevent";
 
 export function Modal({
   isOpen,
@@ -51,12 +52,13 @@ export function ModalContent({
   children,
   ...props
 }: Omit<ComponentPropsWithRef<"div">, "id">) {
-  const { titleId, onClose } = useModalContext();
+  const { titleId, descriptionId, onClose } = useModalContext();
   const [ModalRef, setModalRef] = useState<HTMLDivElement | null>(null);
   const onCloseRef = useCallbackRef(onClose);
 
   useOutsideClickEffect(ModalRef, onCloseRef);
   useEscapeKey(onCloseRef);
+  useScrollPrevent();
 
   return (
     <Portal
@@ -64,6 +66,7 @@ export function ModalContent({
       aria-modal
       {...props}
       aria-labelledby={titleId ?? undefined}
+      aria-describedby={descriptionId ?? undefined}
       ref={setModalRef}
     >
       {children}
@@ -96,7 +99,21 @@ export function ModalDescription({
   children,
   ...props
 }: Omit<ComponentPropsWithRef<"p">, "id">) {
-  return <p {...props}>{children}</p>;
+  const id = useId();
+  const { setDescriptionId } = useModalContext();
+
+  useLayoutEffect(() => {
+    setDescriptionId(id);
+    return () => {
+      setDescriptionId(null);
+    };
+  }, [id, setDescriptionId]);
+
+  return (
+    <p {...props} id={id}>
+      {children}
+    </p>
+  );
 }
 
 export function ModalButton({

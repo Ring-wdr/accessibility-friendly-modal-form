@@ -8,7 +8,7 @@ const [InnerModalContextProvider, useModalContext] =
 
 type ModalContextProviderProps = Omit<
   ModalContextType,
-  "titleId" | "setTitleId"
+  "titleId" | "setTitleId" | "descriptionId" | "setDescriptionId"
 >;
 
 function ModalContextProvider({
@@ -20,9 +20,17 @@ function ModalContextProvider({
 } & ModalContextProviderProps) {
   const onCloseRef = useCallbackRef(onClose);
   const [titleId, setTitleId] = useState<string | null>(null);
+  const [descriptionId, setDescriptionId] = useState<string | null>(null);
   const modalState = useMemo(
-    () => ({ isOpen, onClose: onCloseRef, titleId, setTitleId }),
-    [isOpen, onCloseRef, titleId]
+    () => ({
+      isOpen,
+      onClose: onCloseRef,
+      titleId,
+      setTitleId,
+      descriptionId,
+      setDescriptionId,
+    }),
+    [isOpen, onCloseRef, titleId, descriptionId]
   );
   return (
     <InnerModalContextProvider value={modalState}>
