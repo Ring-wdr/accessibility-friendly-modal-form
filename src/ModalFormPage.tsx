@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { Modal } from "./compontents/modal";
+import {
+  Modal,
+  ModalContent,
+  ModalTitle,
+  ModalButton,
+} from "./compontents/modal";
 
 const ModalFormPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,7 +14,11 @@ const ModalFormPage = () => {
       <button onClick={() => setIsOpen(true)}>Open Modal</button>
       {isOpen && (
         <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-          모달입니다..
+          <ModalContent>
+            <ModalTitle>Modal Title</ModalTitle>
+            모달입니다..
+            <ModalButton>Close</ModalButton>
+          </ModalContent>
         </Modal>
       )}
     </>
