@@ -122,7 +122,13 @@ export function ModalButton({
 }: Omit<ComponentPropsWithRef<"button">, "id">) {
   const { onClose } = useModalContext();
   return (
-    <button {...props} onClick={onClose}>
+    <button
+      {...props}
+      onClick={(event) => {
+        props.onClick?.(event);
+        onClose();
+      }}
+    >
       {children}
     </button>
   );
